@@ -1,5 +1,10 @@
 import pygame
-
+from cochonnet import Cochonnet
+from blueboulle import Blueboulle
+from pinkblueboulle import Pinkblue
+from pinkpurple import Pinkpurple
+from pinkyellow import Pinkyellow
+from redpurple import Redpurple
 
 # set up pygame modules
 pygame.init()
@@ -39,6 +44,9 @@ while run:
 
     # --- Main event loop
     for event in pygame.event.get():  # User did something
+        if not pregame:
+            pregame = False  # u can delete this later it's just to make the code work
+
         if pregame:
             if event.type == pygame.MOUSEBUTTONUP:
                 pregame = False
@@ -52,6 +60,3 @@ while run:
 
 # Once we have exited the main program loop we can stop the game engine:
 pygame.quit()
-
-
-
