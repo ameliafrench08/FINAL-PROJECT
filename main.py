@@ -31,8 +31,12 @@ display_name = my_font.render(name, True, (255, 255, 255))
 display_message = my_font.render(message, True, (255, 255, 255))
 display_screen = my_font.render(pregame_message, True, (200, 200, 200))
 
-# f = Fox(40, 60)
-# c = Coin(200, 85)
+c = Cochonnet(1000, 1000)
+bb = Blueboulle(1001, 1001)
+pb = Pinkblue(1002, 1002)
+pp = Pinkpurple(1003, 1003)
+py = Pinkyellow(1004, 1004)
+rp = Redpurple(1005, 1005)
 
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
@@ -46,7 +50,8 @@ while run:
     for event in pygame.event.get():  # User did something
         if not pregame:
             pregame = False  # u can delete this later it's just to make the code work
-
+            c.move(350, 250)
+            
         if pregame:
             if event.type == pygame.MOUSEBUTTONUP:
                 pregame = False
