@@ -13,8 +13,8 @@ my_font = pygame.font.SysFont('Arial', 15)
 pygame.display.set_caption("Petanque")
 
 # set up variables for the display
-SCREEN_HEIGHT = 500
-SCREEN_WIDTH = 700
+SCREEN_HEIGHT = 450
+SCREEN_WIDTH = 750
 size = (SCREEN_WIDTH, SCREEN_HEIGHT)
 screen = pygame.display.set_mode(size)
 
@@ -31,12 +31,13 @@ display_name = my_font.render(name, True, (255, 255, 255))
 display_message = my_font.render(message, True, (255, 255, 255))
 display_screen = my_font.render(pregame_message, True, (200, 200, 200))
 
-c = Cochonnet(1000, 1000)
+c = Cochonnet(375, 175)
 bb = Blueboulle(1001, 1001)
 pb = Pinkblue(1002, 1002)
 pp = Pinkpurple(1003, 1003)
 py = Pinkyellow(1004, 1004)
 rp = Redpurple(1005, 1005)
+bg = pygame.image.load("PetanqueBackground.png")
 
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
@@ -45,12 +46,10 @@ run = True
 while run:
 
     keys = pygame.key.get_pressed()  # checking pressed keys
-
+    if not pregame:
+            c.move(375, 175)
     # --- Main event loop
     for event in pygame.event.get():  # User did something
-        if not pregame:
-            pregame = False  # u can delete this later it's just to make the code work
-            c.move(350, 250)
             
         if pregame:
             if event.type == pygame.MOUSEBUTTONUP:
@@ -58,7 +57,15 @@ while run:
         if event.type == pygame.QUIT:  # If user clicked close
             run = False
 
-    screen.fill((r, g, b))
+    screen.fill((0, 0, 0))
+    if not pregame:
+        screen.blit(bg, (0, 0))
+        screen.blit(c.image, c.rect)
+        screen.blit(bb.image, bb.rect)
+        screen.blit(pb.image, pb.rect)
+        screen.blit(pp.image, pp.rect)
+        screen.blit(py.image, py.rect)
+        screen.blit(rp.image, rp.rect)
     if pregame:
         screen.blit(display_screen, (50, 200))
     pygame.display.update()
