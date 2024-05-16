@@ -5,6 +5,7 @@ from pinkblueboulle import Pinkblue
 from pinkpurple import Pinkpurple
 from pinkyellow import Pinkyellow
 from redpurple import Redpurple
+from redarrow import RedArrow
 
 # set up pygame modules
 pygame.init()
@@ -13,7 +14,7 @@ my_font = pygame.font.SysFont('Arial', 15)
 pygame.display.set_caption("Petanque")
 
 # set up variables for the display
-SCREEN_HEIGHT = 450
+SCREEN_HEIGHT = 445
 SCREEN_WIDTH = 750
 size = (SCREEN_WIDTH, SCREEN_HEIGHT)
 screen = pygame.display.set_mode(size)
@@ -25,19 +26,27 @@ message = "Collision not detected"
 r = 100
 g = 0
 b = 0
+playerone_pts = 0
+playertwo_pts = 0
 
 # render the text for later
 display_name = my_font.render(name, True, (255, 255, 255))
 display_message = my_font.render(message, True, (255, 255, 255))
 display_screen = my_font.render(pregame_message, True, (200, 200, 200))
+image = pygame.image.load('redarrow.png')
+DEFAULT_IMAGE_SIZE = (150, 150)
+image = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
+image = pygame.transform.rotate(image, 270)
 
 c = Cochonnet(375, 175)
-bb = Blueboulle(1001, 1001)
-pb = Pinkblue(1002, 1002)
-pp = Pinkpurple(1003, 1003)
-py = Pinkyellow(1004, 1004)
-rp = Redpurple(1005, 1005)
+a = RedArrow(320, 275)
+bb = Blueboulle(375, 430)
+pb = Pinkblue(200, 430)
+pp = Pinkpurple(300, 430)
+py = Pinkyellow(450, 430)
+rp = Redpurple(550, 430)
 bg = pygame.image.load("PetanqueBackground.png")
+
 
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
@@ -66,6 +75,7 @@ while run:
         screen.blit(pp.image, pp.rect)
         screen.blit(py.image, py.rect)
         screen.blit(rp.image, rp.rect)
+        screen.blit(image, a.rect)
     if pregame:
         screen.blit(display_screen, (50, 200))
     pygame.display.update()
