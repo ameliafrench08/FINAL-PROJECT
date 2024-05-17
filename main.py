@@ -36,7 +36,7 @@ display_screen = my_font.render(pregame_message, True, (200, 200, 200))
 image = pygame.image.load('redarrow.png')
 DEFAULT_IMAGE_SIZE = (150, 150)
 image = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
-image = pygame.transform.rotate(image, 270)
+image = pygame.transform.rotate(image, 265)
 
 c = Cochonnet(375, 175)
 a = RedArrow(320, 275)
@@ -47,7 +47,6 @@ py = Pinkyellow(450, 430)
 rp = Redpurple(550, 430)
 bg = pygame.image.load("PetanqueBackground.png")
 
-
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
 
@@ -56,10 +55,14 @@ while run:
 
     keys = pygame.key.get_pressed()  # checking pressed keys
     if not pregame:
-            c.move(375, 175)
+        c.move(375, 175)
+        if keys[pygame.K_LEFT]:
+            a.change_direction("left")
+            print("ITS LEFT")
+
     # --- Main event loop
     for event in pygame.event.get():  # User did something
-            
+
         if pregame:
             if event.type == pygame.MOUSEBUTTONUP:
                 pregame = False
