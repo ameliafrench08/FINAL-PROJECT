@@ -14,16 +14,7 @@ class RedArrow:
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
         self.delta = .1
 
+    def change_direction(self, direction):
+        if direction == "left":
+            self.image = pygame.transform.rotate(self.image, 91)
 
-    def move(self, new_x, new_y):
-        change_x = True
-        change_y = True
-        if self.x == new_x:
-            change_x = False
-        if self.x != new_x and change_x:
-            self.x += self.delta
-        if self.y == new_y:
-            change_y = False
-        if self.y != new_y and change_y:
-            self.y -= self.delta
-        self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
