@@ -6,6 +6,7 @@ from pinkpurple import Pinkpurple
 from pinkyellow import Pinkyellow
 from redpurple import Redpurple
 from redarrow import RedArrow
+from scale import Scale
 
 # set up pygame modules
 pygame.init()
@@ -45,7 +46,9 @@ pb = Pinkblue(200, 430)
 pp = Pinkpurple(300, 430)
 py = Pinkyellow(450, 430)
 rp = Redpurple(550, 430)
+s = Scale (0, 0)
 bg = pygame.image.load("PetanqueBackground.png")
+full_angle = 265
 
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
@@ -57,8 +60,21 @@ while run:
     if not pregame:
         c.move(375, 175)
         if keys[pygame.K_LEFT]:
-            a.change_direction("left")
-            print("ITS LEFT")
+            # a.change_direction("left")
+            image = pygame.image.load('redarrow.png')
+            DEFAULT_IMAGE_SIZE = (150, 150)
+            image = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
+            image = pygame.transform.rotate(image, (full_angle + 1))
+            full_angle += 1
+            a.move(320, 275)
+
+        if keys[pygame.K_RIGHT]:
+            image = pygame.image.load('redarrow.png')
+            DEFAULT_IMAGE_SIZE = (150, 150)
+            image = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
+            image = pygame.transform.rotate(image, (full_angle - 1))
+            full_angle -= 1
+            a.move(320, 275)
 
     # --- Main event loop
     for event in pygame.event.get():  # User did something
