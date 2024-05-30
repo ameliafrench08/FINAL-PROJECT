@@ -33,6 +33,7 @@ playertwo_pts = 0
 speed_shoot = 1
 direction = 0
 speed = 0
+swap_sign = 1
 
 # render the text for later
 display_name = my_font.render(name, True, (255, 255, 255))
@@ -53,7 +54,7 @@ rp = Redpurple(550, 430)
 s = Scale(0, 2)
 sl = ScaleLine(20, 220)
 bg = pygame.image.load("PetanqueBackground.png")
-full_angle = 265
+full_angle = 90
 
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
@@ -84,7 +85,14 @@ while run:
             image = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
             image = pygame.transform.rotate(image, (full_angle + 1))
             full_angle += 1
+            if full_angle > 360:
+                full_angle = full_angle/360
+                full_angle = round(full_angle)
+            print(full_angle)
             a.move(320, 275)
+            if swap_sign == 1:
+                full_angle = full_angle * -1
+                swap_sign = 0
 
         if keys[pygame.K_RIGHT]:
             image = pygame.image.load('redarrow.png')
@@ -92,7 +100,14 @@ while run:
             image = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
             image = pygame.transform.rotate(image, (full_angle - 1))
             full_angle -= 1
+            if full_angle > 360:
+                full_angle = full_angle/360
+                full_angle = round(full_angle)
+            print(full_angle)
             a.move(320, 275)
+            if swap_sign == 1:
+                full_angle = full_angle * -1
+                swap_sign = 0
 
         # !!!SPEED!!!
         if keys[pygame.K_SPACE] and speed_shoot == 1:
@@ -101,16 +116,16 @@ while run:
             if 2 <= sl.y <= 32:
                 # TOO FAST
                 speed = 0.6
-            if 32.1 <= sl.y <= 190:
+            elif 32.1 <= sl.y <= 190:
                 # FAST
                 speed = 0.4
-            if 190.1 <= sl.y <= 250:
+            elif 190.1 <= sl.y <= 250:
                 # GREEN
                 speed = 0.3
-            if 250.1 <= sl.y <= 338:
+            elif 250.1 <= sl.y <= 338:
                 # SLOW
                 speed = 0.2
-            if 338.1 <= sl.y <= 438:
+            elif 338.1 <= sl.y <= 438:
                 # VERY SLOW
                 speed = 0.1
 
@@ -118,13 +133,10 @@ while run:
         if keys[pygame.K_SPACE] and speed_shoot == 2:
             speed_shoot = 1
 
+
     # --- Main event loop
     for event in pygame.event.get():  # User did something
-        # 2 - 32 : y-coordinates of top red
-        # 32 - 190: top yellow
-        # 190 - 250: green
-        # 250 - 338: bottom yellow
-        # 338 - 438: bottom red
+
 
         if pregame:
             if event.type == pygame.MOUSEBUTTONUP:

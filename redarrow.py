@@ -20,3 +20,5 @@ class RedArrow:
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
 
 
+
+
