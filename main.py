@@ -1,4 +1,5 @@
 import pygame
+import math
 from cochonnet import Cochonnet
 from blueboulle import Blueboulle
 from pinkblueboulle import Pinkblue
@@ -55,6 +56,9 @@ s = Scale(0, 2)
 sl = ScaleLine(20, 220)
 bg = pygame.image.load("PetanqueBackground.png")
 full_angle = 90
+hypotenuse = 0
+which_ball = 1
+change_goto = 1
 
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
@@ -132,11 +136,30 @@ while run:
         # !!!SHOOTING BLUE BALL!!!
         if keys[pygame.K_SPACE] and speed_shoot == 2:
             speed_shoot = 1
-
+            if speed == 0.1:
+                hypotenuse = 10
+            elif speed == 0.2:
+                hypotenuse = 15
+            elif speed == 0.3:
+                hypotenuse = 20
+            elif speed == 0.4:
+                hypotenuse = 25
+            elif speed == 0.6:
+                hypotenuse = 40
+            if which_ball == 1:
+                goto_x = (math.sin((full_angle - 90) * -1)) * hypotenuse
+                if change_goto == 1:
+                    goto_x += bb.x
+                print(goto_x)
+                goto_y = (math.cos((full_angle - 90) * -1)) * hypotenuse
+                if change_goto == 1:
+                    goto_y -= bb.y
+                print(goto_y)
+                bb.move_direction(speed, goto_x, goto_y)
+                change_goto = 0
 
     # --- Main event loop
     for event in pygame.event.get():  # User did something
-
 
         if pregame:
             if event.type == pygame.MOUSEBUTTONUP:
