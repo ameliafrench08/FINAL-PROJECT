@@ -35,6 +35,7 @@ speed_shoot = 1
 direction = 0
 speed = 0
 swap_sign = 1
+space_ball = 0
 
 # render the text for later
 display_name = my_font.render(name, True, (255, 255, 255))
@@ -65,6 +66,22 @@ run = True
 
 # -------- Main Program Loop -----------
 while run:
+
+    if which_ball == 1 and space_ball == 1:
+        goto_x = 375
+        goto_y = 430
+        goto_x += (math.sin((full_angle))) * hypotenuse
+        # print(goto_x)
+        goto_y += math.cos((full_angle)) * hypotenuse
+        print(full_angle)
+        print((math.cos((full_angle))) * hypotenuse)
+        print((math.sin((full_angle))) * hypotenuse)
+        # print(goto_y)
+        # CHANGE X AND Y  TO BE GOTO_X AND GOTO_Y
+        bb.move_direction(speed, goto_x, goto_y)
+        change_goto = 0
+
+        # FOR NEXT TIME: Fix the math for the boulle bleu. Keeps going to kinda random coordinates.
 
     keys = pygame.key.get_pressed()  # checking pressed keys
     if not pregame:
@@ -137,26 +154,17 @@ while run:
         if keys[pygame.K_SPACE] and speed_shoot == 2:
             speed_shoot = 1
             if speed == 0.1:
-                hypotenuse = 10
+                hypotenuse = 435
             elif speed == 0.2:
-                hypotenuse = 15
+                hypotenuse = 440
             elif speed == 0.3:
-                hypotenuse = 20
+                hypotenuse = 445
             elif speed == 0.4:
-                hypotenuse = 25
+                hypotenuse = 450
             elif speed == 0.6:
-                hypotenuse = 40
-            if which_ball == 1:
-                goto_x = (math.sin((full_angle - 90) * -1)) * hypotenuse
-                if change_goto == 1:
-                    goto_x += bb.x
-                print(goto_x)
-                goto_y = (math.cos((full_angle - 90) * -1)) * hypotenuse
-                if change_goto == 1:
-                    goto_y -= bb.y
-                print(goto_y)
-                bb.move_direction(speed, goto_x, goto_y)
-                change_goto = 0
+                hypotenuse = 500
+            space_ball = 1
+
 
     # --- Main event loop
     for event in pygame.event.get():  # User did something
