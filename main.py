@@ -31,7 +31,7 @@ g = 0
 b = 0
 playerone_pts = 0
 playertwo_pts = 0
-speed_shoot = 1
+speed_shoot = 2
 direction = 0
 speed = 0
 swap_sign = 1
@@ -57,9 +57,9 @@ s = Scale(0, 2)
 sl = ScaleLine(20, 220)
 bg = pygame.image.load("PetanqueBackground.png")
 full_angle = 90
-hypotenuse = 0
 which_ball = 1
 change_goto = 1
+add_length = 0
 
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
@@ -67,19 +67,25 @@ run = True
 # -------- Main Program Loop -----------
 while run:
 
-    if which_ball == 1 and space_ball == 1:
+    if which_ball == 1 and space_ball == 1 and speed_shoot == 1:
         goto_x = 375
         goto_y = 430
-        goto_x += (math.sin((full_angle))) * hypotenuse
-        # print(goto_x)
-        goto_y += math.cos((full_angle)) * hypotenuse
-        print(full_angle)
-        print((math.cos((full_angle))) * hypotenuse)
-        print((math.sin((full_angle))) * hypotenuse)
+        add_x = math.cos(full_angle)
+        add_x = add_x * add_length
+        goto_x += add_x
+        print("Add_x: " + str(add_x))
+        add_y = math.sin(full_angle)
+        add_y = add_y * add_length
+        goto_y -= add_y
+        print("Add_y: " + str(add_y))
+        print("X: " + str(goto_x))
+        print("Y: " + str(goto_y))
         # print(goto_y)
         # CHANGE X AND Y  TO BE GOTO_X AND GOTO_Y
         bb.move_direction(speed, goto_x, goto_y)
         change_goto = 0
+        speed_shoot = 1
+        # SPEED SHOOT MAKES THE BALL NOT MOVE!!!!!!!!!
 
         # FOR NEXT TIME: Fix the math for the boulle bleu. Keeps going to kinda random coordinates.
 
@@ -154,15 +160,15 @@ while run:
         if keys[pygame.K_SPACE] and speed_shoot == 2:
             speed_shoot = 1
             if speed == 0.1:
-                hypotenuse = 435
+                add_length = 160
             elif speed == 0.2:
-                hypotenuse = 440
+                add_length = 170
             elif speed == 0.3:
-                hypotenuse = 445
+                add_length = 180
             elif speed == 0.4:
-                hypotenuse = 450
+                add_length = 190
             elif speed == 0.6:
-                hypotenuse = 500
+                add_length = 200
             space_ball = 1
 
 
