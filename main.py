@@ -36,6 +36,7 @@ direction = 0
 speed = 0
 swap_sign = 1
 space_ball = 0
+first_time = 0
 
 # render the text for later
 display_name = my_font.render(name, True, (255, 255, 255))
@@ -44,7 +45,8 @@ display_screen = my_font.render(pregame_message, True, (200, 200, 200))
 image = pygame.image.load('redarrow.png')
 DEFAULT_IMAGE_SIZE = (150, 150)
 image = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
-image = pygame.transform.rotate(image, 265)
+image = pygame.transform.rotate(image, 90)
+real_angle = 90
 
 c = Cochonnet(375, 175)
 a = RedArrow(320, 275)
@@ -70,21 +72,28 @@ while run:
     if which_ball == 1 and space_ball == 1 and speed_shoot == 1:
         goto_x = 375
         goto_y = 430
-        add_x = math.cos(full_angle)
+        add_x = math.cos(real_angle)
         add_x = add_x * add_length
         goto_x += add_x
         print("Add_x: " + str(add_x))
-        add_y = math.sin(full_angle)
+        add_y = math.sin(real_angle)
         add_y = add_y * add_length
         goto_y -= add_y
         print("Add_y: " + str(add_y))
         print("X: " + str(goto_x))
         print("Y: " + str(goto_y))
+        print("full angle: " + str(real_angle))
         # print(goto_y)
         # CHANGE X AND Y  TO BE GOTO_X AND GOTO_Y
         bb.move_direction(speed, goto_x, goto_y)
         change_goto = 0
         speed_shoot = 1
+        image_two = pygame.image.load('blueboulle.png')
+        default_x = 20
+        default_y = 20
+        image_two = pygame.transform.scale(image_two, (default_x - 0.1, default_y - 0.1))
+        default_x -= 0.1
+        default_y -= 0.1
         # SPEED SHOOT MAKES THE BALL NOT MOVE!!!!!!!!!
 
         # FOR NEXT TIME: Fix the math for the boulle bleu. Keeps going to kinda random coordinates.
@@ -122,19 +131,31 @@ while run:
                 swap_sign = 0
 
         if keys[pygame.K_RIGHT]:
+            if first_time == 0:
+                real_angle += 180
             image = pygame.image.load('redarrow.png')
             DEFAULT_IMAGE_SIZE = (150, 150)
             image = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
             image = pygame.transform.rotate(image, (full_angle - 1))
             full_angle -= 1
+            real_angle -= 1
             if full_angle > 360:
-                full_angle = full_angle/360
+                full_angle = full_angle - 360
                 full_angle = round(full_angle)
+                real_angle -= 360
+            if full_angle < 0:
+                full_angle = full_angle + 360
+                real_angle += 180
             print(full_angle)
             a.move(320, 275)
             if swap_sign == 1:
                 full_angle = full_angle * -1
                 swap_sign = 0
+                real_angle = real_angle * -1
+            if full_angle == 360 and first_time == 0:
+                full_angle = 0
+                first_time = 1
+                real_angle = 0
 
         # !!!SPEED!!!
         if keys[pygame.K_SPACE] and speed_shoot == 1:
