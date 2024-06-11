@@ -63,6 +63,11 @@ which_ball = 1
 change_goto = 1
 add_length = 0
 
+
+def round_number(x, base=5):
+    return base * round(x / base)
+
+
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
 
@@ -70,32 +75,51 @@ run = True
 while run:
 
     if which_ball == 1 and space_ball == 1 and speed_shoot == 1:
-        goto_x = 375
-        goto_y = 430
-        add_x = math.cos(real_angle)
-        add_x = add_x * add_length
-        goto_x += add_x
-        print("Add_x: " + str(add_x))
-        add_y = math.sin(real_angle)
-        add_y = add_y * add_length
-        goto_y -= add_y
-        print("Add_y: " + str(add_y))
-        print("X: " + str(goto_x))
-        print("Y: " + str(goto_y))
-        print("full angle: " + str(real_angle))
-        # print(goto_y)
-        # CHANGE X AND Y  TO BE GOTO_X AND GOTO_Y
-        bb.move_direction(speed, goto_x, goto_y)
-        change_goto = 0
-        speed_shoot = 1
-        image_two = pygame.image.load('blueboulle.png')
-        default_x = 20
-        default_y = 20
-        image_two = pygame.transform.scale(image_two, (default_x - 0.1, default_y - 0.1))
-        default_x -= 0.1
-        default_y -= 0.1
-        # SPEED SHOOT MAKES THE BALL NOT MOVE!!!!!!!!!
+        # goto_x = 375
+        # goto_y = 430
+        # add_x = math.cos(real_angle)
+        # add_x = add_x * add_length
+        # goto_x += add_x
+        # print("Add_x: " + str(add_x))
+        # add_y = math.sin(real_angle)
+        # add_y = add_y * add_length
+        # goto_y -= add_y
+        # print("Add_y: " + str(add_y))
+        # print("X: " + str(goto_x))
+        # print("Y: " + str(goto_y))
+        # print("full angle: " + str(real_angle))
+        # # print(goto_y)
+        # # CHANGE X AND Y  TO BE GOTO_X AND GOTO_Y
+        # bb.move_direction(speed, goto_x, goto_y)
+        # change_goto = 0
+        # speed_shoot = 1
+        # image_two = pygame.image.load('blueboulle.png')
+        # default_x = 20
+        # default_y = 20
+        # image_two = pygame.transform.scale(image_two, (default_x - 0.1, default_y - 0.1))
+        # default_x -= 0.1
+        # default_y -= 0.1
+        # # SPEED SHOOT MAKES THE BALL NOT MOVE!!!!!!!!!
+        real_angle_round = round_number(real_angle)
+        print(real_angle_round)
+        if real_angle_round == 90:
+            bb.move_direction(speed, 375, (430 - add_length))
+        elif real_angle_round == 0:
+            bb.move_direction(speed, (375 + add_length), 430)
+        elif real_angle_round == 180:
+            bb.move_direction(speed, (375 - add_length), 430)
+        elif real_angle_round == 270:
+            bb.move_direction(speed, 375, (430 + add_length))
+        elif real_angle_round == 120:
+            num_ratio = round(add_length/0.9880316241)
+            x_coord = num_ratio * -0.1542514499
+            bb.move_direction(speed, x_coord, add_length)
+        elif real_angle_round == 60:
+            num_ratio = round(add_length/0.9880316241)
+            x_coord = num_ratio * 0.1542514499
+            bb.move_direction(speed, x_coord, add_length)
 
+        # REAL ANGLE IS ALWAYS 90::::: FIX THAT
         # FOR NEXT TIME: Fix the math for the boulle bleu. Keeps going to kinda random coordinates.
 
     keys = pygame.key.get_pressed()  # checking pressed keys
@@ -120,9 +144,11 @@ while run:
             DEFAULT_IMAGE_SIZE = (150, 150)
             image = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
             image = pygame.transform.rotate(image, (full_angle + 1))
+            bbimage = pygame.image.load('blueboulle.png')
+            bbimage = pygame.transform.rotate(bbimage, (full_angle + 1))
             full_angle += 1
             if full_angle > 360:
-                full_angle = full_angle/360
+                full_angle = full_angle / 360
                 full_angle = round(full_angle)
             print(full_angle)
             a.move(320, 275)
@@ -131,31 +157,21 @@ while run:
                 swap_sign = 0
 
         if keys[pygame.K_RIGHT]:
-            if first_time == 0:
-                real_angle += 180
             image = pygame.image.load('redarrow.png')
             DEFAULT_IMAGE_SIZE = (150, 150)
             image = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
             image = pygame.transform.rotate(image, (full_angle - 1))
+            bbimage = pygame.image.load('blueboulle.png')
+            bbimage = pygame.transform.rotate(bbimage, (full_angle - 1))
             full_angle -= 1
-            real_angle -= 1
             if full_angle > 360:
-                full_angle = full_angle - 360
+                full_angle = full_angle / 360
                 full_angle = round(full_angle)
-                real_angle -= 360
-            if full_angle < 0:
-                full_angle = full_angle + 360
-                real_angle += 180
             print(full_angle)
             a.move(320, 275)
             if swap_sign == 1:
                 full_angle = full_angle * -1
                 swap_sign = 0
-                real_angle = real_angle * -1
-            if full_angle == 360 and first_time == 0:
-                full_angle = 0
-                first_time = 1
-                real_angle = 0
 
         # !!!SPEED!!!
         if keys[pygame.K_SPACE] and speed_shoot == 1:
@@ -191,7 +207,6 @@ while run:
             elif speed == 0.6:
                 add_length = 200
             space_ball = 1
-
 
     # --- Main event loop
     for event in pygame.event.get():  # User did something
