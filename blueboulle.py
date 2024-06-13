@@ -16,16 +16,26 @@ class Blueboulle:
         self.size = .2
 
     def move_direction(self, speed, new_x, new_y):
-        if self.x < new_x:
-            self.x = self.x + speed
-        elif self.x > new_x:
-            self.x = self.x - speed
+        x_speed = 0
+        y_speed = 0
+        if (self.x + 55) < new_x:
+            x_speed = speed
+            self.x = self.x + x_speed
+            self.image = pygame.transform.scale(self.image, (self.image.get_width() - (1 * (10 ** -14.9)), self.image.get_height() * 1))
+        elif (self.x + 55) > new_x:
+            x_speed = speed
+            self.x = self.x - x_speed
         if self.y > new_y:
-            self.y = self.y - speed
-        speed -= 0.05
-        # self.size -= 0.0001
+            y_speed = speed
+            self.y = self.y - y_speed
+        elif self.y < new_y:
+            self.y = self.y + y_speed
+        # speed -= 0.9
+        # x_speed -= 0.9
+        # y_speed -= 0.9
         # self.image_size = self.image.get_size()
-        # scale_size = (self.image_size[0] * self.size, self.image_size[1] * self.size)
+        # scale_size = (self.image_size[0] * .9999, self.image_size[1] * .9999)
         # self.image = pygame.transform.scale(self.image, scale_size)
+        # self.image_size = self.image.get_size()
+        # self.image = pygame.transform.scale(self.image, (self.image.get_width() - (1 * (10 ** -14.9)), self.image.get_height() - (1 * (10 ** -14.9))))
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
-
