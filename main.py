@@ -59,6 +59,7 @@ space_ball = 0
 first_time = 0
 is_over = False
 bb_distance = 0
+start_time = round(time.time())
 
 # render the text for later
 display_name = my_font.render(name, True, (255, 255, 255))
@@ -88,11 +89,26 @@ highscore_achieved = "You got a new highscore!"
 highscore_not = "You didn't achieve a new highscore"
 display_highscore = my_font.render(highscore_achieved, True, (255, 255, 255))
 display_not_high = my_font.render(highscore_not, True, (255, 255, 255))
+speed_original = 0
 
 # The loop will carry on until the user exits the game (e.g. clicks the close button).
 run = True
 # -------- Main Program Loop -----------
 while run:
+    if (round(time.time(), 2) - start_time).is_integer():
+        if speed_original == 0.1 or speed_original == 0.2:
+            speed -= 0.04
+            if speed < 0:
+                speed = 0
+        elif speed_original == 0.3 or speed_original == 0.4:
+            speed -= 0.004
+            print(speed)
+            if speed < 0:
+                speed = 0
+        elif speed_original == 0.6:
+            speed -= 0.00001
+            if speed < 0:
+                speed = 0
     if space_ball == 1 and speed_shoot == 1 and not is_over:
         coord_input = degrees_to_radians(full_angle)
         find_coordinates(coord_input)
@@ -102,10 +118,6 @@ while run:
         display_distance = my_font.render("Distance: " + bb_distance, True, (0, 0, 0))
         postgame_message = "You got " + str(bb_distance) + " away from the cochonnet!"
         display_postgame = my_font.render(postgame_message, True, (200, 200, 200))
-
-
-        # REAL ANGLE IS ALWAYS 90::::: FIX THAT
-        # FOR NEXT TIME: Fix the math for the boulle bleu. Keeps going to kinda random coordinates.
 
     keys = pygame.key.get_pressed()  # checking pressed keys
     if not pregame:
@@ -124,7 +136,6 @@ while run:
 
         # !!!CHANGING DIRECTION OF THE ARROW!!!
         if keys[pygame.K_LEFT]:
-            # a.change_direction("left")
             image = pygame.image.load('redarrow.png')
             DEFAULT_IMAGE_SIZE = (150, 150)
             image = pygame.transform.scale(image, DEFAULT_IMAGE_SIZE)
@@ -137,9 +148,6 @@ while run:
                 full_angle = round(full_angle)
             print(full_angle)
             a.move(320, 275)
-            # if swap_sign == 1:
-            #     full_angle = full_angle * -1
-            #     swap_sign = 0
 
         if keys[pygame.K_RIGHT]:
             image = pygame.image.load('redarrow.png')
@@ -154,9 +162,6 @@ while run:
                 full_angle = round(full_angle)
             print(full_angle)
             a.move(320, 275)
-            # if swap_sign == 1:
-            #     full_angle = full_angle * -1
-            #     swap_sign = 0
 
         # !!!SPEED!!!
         if keys[pygame.K_SPACE] and speed_shoot == 1:
@@ -165,18 +170,23 @@ while run:
             if 2 <= sl.y <= 32:
                 # TOO FAST
                 speed = 0.6
+                speed_original = 0.6
             elif 32.1 <= sl.y <= 190:
                 # FAST
                 speed = 0.4
+                speed_original = 0.4
             elif 190.1 <= sl.y <= 250:
                 # GREEN
                 speed = 0.3
+                speed_original = 0.3
             elif 250.1 <= sl.y <= 338:
                 # SLOW
                 speed = 0.2
+                speed_original = 0.2
             elif 338.1 <= sl.y <= 438:
                 # VERY SLOW
                 speed = 0.1
+                speed_original = 0.1
 
         # !!!SHOOTING BLUE BALL!!!
         if keys[pygame.K_SPACE] and speed_shoot == 2:
@@ -184,13 +194,13 @@ while run:
             if speed == 0.1:
                 add_length = 160
             elif speed == 0.2:
-                add_length = 170
-            elif speed == 0.3:
                 add_length = 180
+            elif speed == 0.3:
+                add_length = 230
             elif speed == 0.4:
-                add_length = 190
+                add_length = 120
             elif speed == 0.6:
-                add_length = 200
+                add_length = 100
             space_ball = 1
 
         if keys[pygame.K_RETURN]:
